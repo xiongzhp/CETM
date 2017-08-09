@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}Online Demo | ChemDataExtractor{% endblock %}
+
+{% block content %}
+  <div class="container page-container">
+    <h1>Online Demo</h1>
+    <p>Upload a file or enter some text to try ChemDataExtractor online. Alternatively, check out one of our <a href="#tab-examples" id="example-link">example files</a>.</p>
+    <p>
+      This demo has been configured to extract NMR, IR, and UV-vis spectra, as well as melting points, electrochemical
+      potentials, fluorescence lifetimes and quantum yields, along with compound identifiers and document metadata.
+      To customize this, download the <a href="{{ url_for('download') }}">toolkit</a>.
+    </p>
+    <div>
+      <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#tab-file" role="tab" data-toggle="tab">Upload a file</a></li>
+        <li role="presentation"><a href="#tab-text" role="tab" data-toggle="tab">Enter text</a></li>
+        <li role="presentation"><a href="#tab-examples" role="tab" data-toggle="tab">Example files</a></li>
+{#        <li role="presentation"><a href="#tab-url" role="tab" data-toggle="tab">Enter URL</a></li>#}
+      </ul>
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="tab-file">
+          <p>This demo works best with the HTML version of journal articles published by the ACS and the RSC, and the JATS XML format used by PubMed Central. Support for PDF files is extremely limited.</p>
+          <form class="form" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-btn">
+                  <span class="btn btn-default btn-file">Browse for file&hellip;<input type="file" name="input-file"></span>
+                </span>
+                <input type="text" class="form-control" readonly>
+              </div>
+            </div>
+            <div class="form-group">
+              <button id="submit-file" class="btn btn-lg btn-primary">Submit</button>
+            </div>
+          </form>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="tab-text">
+          <form class="form" method="POST">
+            <div class="form-group">
+              <textarea id="input-text" name="input-text" class="form-control" placeholder="Type or paste text here..."></textarea>
+            </div>
+            <div class="form-group">
+              <button id="submit-text" class="btn btn-lg btn-primary">Submit</button>
+            </div>
+          </form>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="tab-examples">
+          <div class="row">
+            <div class="col-xs-12 col-sm-10">
+              <img class="doc-icon" src="{{ url_for('static', filename='img/document.svg') }}">
+              <div class="doc-meta">
+                <h4>Photophysical characterization of the 9,10-disubstituted anthracene chromophore and its applications in triplet–triplet annihilation photon upconversion</h4>
+                <div>V Gray et al., <em>Journal of Materials Chemistry C</em> (2015) <a href="http://dx.doi.org/10.1039/c5tc02626a">10.1039/c5tc02626a</a></div>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-2">
+              <a class="btn btn-primary btn-result" href="/results/c21790d4-1bb1-4110-9b91-fffd2b809738">Show Results {{utils.icon('chevron-right')}}</a>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-xs-12 col-sm-10">
+              <img class="doc-icon" src="{{ url_for('static', filename='img/document.svg') }}">
+              <div class="doc-meta">
+                <h4>Alkaline Air Oxidation of 5-hydroxy-2-methyl-1,4,4a,9a-tetrahydroanthracene-9,10-dione</h4>
+                <div>J. Salim & S. M. Kennedy, <em>ChemSpider SyntheticPages</em> (2015) <a href="http://cssp.chemspider.com/801">cssp.chemspider.com/801</a></div>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-2">
+              <a class="btn btn-primary btn-result" href="/results/8f57a682-b7df-4f13-b0cd-ed5902e33c1e">Show Results {{utils.icon('chevron-right')}}</a>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-xs-12 col-sm-10">
+              <img class="doc-icon" src="{{ url_for('static', filename='img/document.svg') }}">
+              <div class="doc-meta">
+                <h4>Process for the synthesis of 2-aminoxazole compounds</h4>
+                <div>US Patent <a href="https://patents.google.com/patent/US8198437B2/en">US-8080669-B2</a> (2011)</div>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-2">
+              <a class="btn btn-primary btn-result" href="/results/6b7f82cc-987f-494e-9fa2-16f22c1c8cd0">Show Results {{utils.icon('chevron-right')}}</a>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-xs-12 col-sm-10">
+              <img class="doc-icon" src="{{ url_for('static', filename='img/document.svg') }}">
+              <div class="doc-meta">
+                <h4>Anhydrous Tetramethylammonium Fluoride for Room-Temperature S<sub>N</sub>Ar Fluorination</h4>
+                <div>S. D. Schimler et al., <em>Journal of Organic Chemistry</em> (2015) <a href="http://dx.doi.org/10.1021/acs.joc.5b02075">10.1021/acs.joc.5b02075</a></div>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-2">
+              <a class="btn btn-primary btn-result" href="/results/91a34bdb-ba93-4833-b344-91857404f3f2">Show Results {{utils.icon('chevron-right')}}</a>
+            </div>
+          </div>
+        </div>
+        {#
+        <div role="tabpanel" class="tab-pane" id="tab-url">
+          <div class="alert alert-warning">
+            <strong>Warning:</strong>
+            This online demo is not able to process URLs for articles with a subscription paywall. Instead, choose "Save As..." while viewing the article and upload the saved file.
+          </div>
+          <form class="form" method="POST">
+            <div class="form-group">
+              <input type="text" id="input-url" name="input-url" class="form-control" placeholder="http://">
+            </div>
+            <div class="form-group">
+              <button id="submit-url" class="btn btn-lg btn-primary">Submit</button>
+            </div>
+          </form>
+        </div> #}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+
+{% block scripts %}
+  {{ super() }}
+  <script src="{{ url_for('static', filename='js/demo.js') }}"></script>
+{%- endblock scripts %}
